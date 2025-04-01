@@ -15,7 +15,7 @@ def login(nome,password,account,persona):
                 print("ciao,benvenuto")
             
             else:
-                print("mi dispaice nome non disponibile")
+                print("mi dispiace nome non disponibile")
             
         
 
