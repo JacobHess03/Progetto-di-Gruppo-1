@@ -15,7 +15,7 @@ def login(nome,password,account,persona):
                 print("ciao,benvenuto")
             
             else:
-                print("mi dispiace nome non disponibile")
+                print("mi dispaice nome non disponibile")
             
         
 
@@ -47,10 +47,10 @@ def crea_utente(utenti, nome, password):
  
  #2 metodo per prenpotare un concerto
 def prenota_concerto(accounts, concerti, sala, utenti, nome):
-     if sala in concerti:
+    if sala in concerti:
          print("Concerto già prenotato")
          return False
-     else:
+    else:
         
          print("Concerto prenotato con successo")
          for i in range(len(accounts)):
@@ -58,10 +58,12 @@ def prenota_concerto(accounts, concerti, sala, utenti, nome):
                  if nome == utenti[j]:
                      print("Utente già esistente")
                      sala.append(accounts[utenti[j]])
+                     concerti.append([sala])
                      return False
          #aggiungo il concerto alla lista concerti
-         concerti.append(sala.append(accounts).append(utenti).append(nome, password))
-         return True
+    
+        
+    return True
      
      
      # for per prenotare massimo 3 concerti
