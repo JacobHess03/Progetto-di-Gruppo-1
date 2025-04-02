@@ -99,7 +99,7 @@ def crea_concerto(concerti, sala, id_concerti):
 flag = True
 while flag:
     # Programma principale
-    scelta = int(input("Ciao, inserisci la scelta\n1. Registrati\n2. Login, Prenotazione\n3. Crea Concerto\n"))
+    scelta = int(input("Ciao, inserisci la scelta\n1. Registrati\n2. Login, Prenotazione\n3. Crea Concerto\n4. Visualizza dettagli utente\n5. Uscita\n"))
 
     match scelta:
         case 1:
@@ -127,6 +127,24 @@ while flag:
         case 3:
             crea_concerto(concerti, sala, id_concerti)
 
+        
+
         case 4:
+            nome = input("Inserire nome utente per visualizzare i dettagli: ")
+            # Controllo se l'utente esiste
+            for utente in utenti:
+                if utente["nome"] == nome:
+                    print(f"Utente: {nome}")
+                    print(f"Numero di concerti prenotati: {utente['concerti_prenotati']}")
+                    print("Concerti prenotati e relative sale:")
+                    indice = 1
+                    for sala_concerto in concerti:
+                        if utente["id"] in sala_concerto:
+                            print(f"- Concerto {indice} nella sala {sala_concerto}")
+                        indice += 1
+                    break
+            else:
+                print("Utente non trovato.")
+        case 5:
             print("Uscita dal programma")
             flag = False
