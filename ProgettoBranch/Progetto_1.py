@@ -2,13 +2,12 @@
 concerti = []
 sala = []
 utenti = []  # Lista di dizionari per rappresentare gli utenti
-accounts = []
 id_utenti = []  # Lista per tracciare gli ID degli utenti
 id_concerti = []  # Lista per tracciare gli ID dei concerti
 
 
 # Funzione per il login
-def login(nome, password, account, utenti):
+def login(nome, password, utenti):
     for utente in utenti:
         if utente["nome"] == nome and utente["password"] == password:
             print("Ciao, benvenuto!")
@@ -37,7 +36,7 @@ def crea_utente(utenti, id_utenti, nome, password):
 
     # Creazione del nuovo utente
     id_utente = len(id_utenti) + 1
-    nuovo_utente = {"id": id_utente, "nome": nome, "password": password}
+    nuovo_utente = {"id": id_utente, "nome": nome, "password": password, "concerti_prenotati": 0}
     utenti.append(nuovo_utente)
     id_utenti.append(id_utente)
 
@@ -47,7 +46,7 @@ def crea_utente(utenti, id_utenti, nome, password):
 
 
 # Metodo per prenotare un concerto
-def prenota_concerto(accounts, concerti, sala, utenti, id_utenti, nome):
+def prenota_concerto(concerti, sala, utenti, nome):
     # Controllo se l'utente esiste
     for utente in utenti:
         if utente["nome"] == nome:
@@ -71,8 +70,9 @@ def prenota_concerto(accounts, concerti, sala, utenti, id_utenti, nome):
             id_concerti.append(id_concerto)
             utente["concerti_prenotati"] += 1
             print(f"ID concerto assegnato: {id_concerto}")
+            print(concerti)  # Stampa di verifica per controllare i concerti prenotati
             return True
-
+    print(concerti)  # Stampa di verifica per controllare i concerti prenotati
     print("Utente non trovato")
     return False
 
@@ -95,33 +95,38 @@ def crea_concerto(concerti, sala, id_concerti):
         print(f"ID concerto assegnato: {id_concerto}")
         return True
 
+#ciclo per il login
+flag = True
+while flag:
+    # Programma principale
+    scelta = int(input("Ciao, inserisci la scelta\n1. Registrati\n2. Login, Prenotazione\n3. Crea Concerto\n"))
 
-# Programma principale
-scelta = int(input("Ciao, inserisci la scelta\n1. Registrati\n2. Login, Prenotazione\n3. Crea Concerto\n"))
+    match scelta:
+        case 1:
+            nome = input("Inserire nome: ")
+            password = input("Inserire password: ")
+            if crea_utente(utenti, id_utenti, nome, password):
+                print("Lista utenti aggiornata:")
+                print(utenti)  # Stampa di verifica per controllare gli utenti registrati
 
-match scelta:
-    case 1:
-        nome = input("Inserire nome: ")
-        password = input("Inserire password: ")
-        if crea_utente(utenti, id_utenti, nome, password):
-            print("Lista utenti aggiornata:")
-            print(utenti)  # Stampa di verifica per controllare gli utenti registrati
+        case 2:
+            
+            nome = input("Inserire nome: ")
+            password = input("Inserire password: ")
+            
+            if login(nome, password, utenti):
+                while True:
+                    risposta = input("Vuoi prenotare un concerto? (si/no): ").lower()
+                    if risposta == "si":
+                        prenota_concerto(concerti, sala, utenti,  nome)
+                    elif risposta == "no":
+                        break
+                    else:
+                        print("Risposta non valida. Inserisci 'si' o 'no'.")
 
-    case 2:
-        utenti = [{"id": "0", "nome": "admin", "password": "admin"}]  # Aggiunta di un utente di test
-        nome = input("Inserire nome: ")
-        password = input("Inserire password: ")
-        
-        if login(nome, password, accounts, utenti):
-            while True:
-                risposta = input("Vuoi prenotare un concerto? (si/no): ").lower()
-                if risposta == "si":
-                    prenota_concerto(accounts, concerti, sala, utenti, id_utenti, nome)
-                elif risposta == "no":
-                    break
-                else:
-                    print("Risposta non valida. Inserisci 'si' o 'no'.")
+        case 3:
+            crea_concerto(concerti, sala, id_concerti)
 
-    case 3:
-        crea_concerto(concerti, sala, id_concerti)
-
+        case 4:
+            print("Uscita dal programma")
+            flag = False
