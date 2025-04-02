@@ -36,7 +36,7 @@ def prenota_concerto(accounts, concerti, sala, utenti, nome):
     # for per prenotare massimo 3 concerti
 for i in range(3):
     sala = input("Inserisci il nome del concerto: ")
-    prenota_concerto(concerti_1, sala_1)
+   # prenota_concerto(concerti_1, sala_1)
 
 
 #3 metodo per creare un concerto
