@@ -48,18 +48,28 @@ def crea_utente(utenti, id_utenti, nome, password):
 
 # Metodo per prenotare un concerto
 def prenota_concerto(accounts, concerti, sala, utenti, id_utenti, nome):
-    if sala in concerti:
-        print("Concerto già prenotato")
-        return False
-
     # Controllo se l'utente esiste
     for utente in utenti:
         if utente["nome"] == nome:
+            # Controllo se l'utente ha già prenotato 3 concerti
+            if "concerti_prenotati" not in utente:
+                utente["concerti_prenotati"] = 0
+            if utente["concerti_prenotati"] >= 3:
+                print("Hai già prenotato il numero massimo di 3 concerti.")
+                return False
+
+            # Controllo se la sala ha raggiunto il limite di 10 posti
+            if len(sala) >= 10:
+                print("La sala ha raggiunto il limite massimo di 10 posti.")
+                return False
+
+            # Prenotazione del concerto
             print("Concerto prenotato con successo")
             sala.append(utente["id"])
             concerti.append(sala.copy())
             id_concerto = len(id_concerti) + 1
             id_concerti.append(id_concerto)
+            utente["concerti_prenotati"] += 1
             print(f"ID concerto assegnato: {id_concerto}")
             return True
 
@@ -98,19 +108,20 @@ match scelta:
             print(utenti)  # Stampa di verifica per controllare gli utenti registrati
 
     case 2:
+        utenti = [{"id": "0", "nome": "admin", "password": "admin"}]  # Aggiunta di un utente di test
         nome = input("Inserire nome: ")
         password = input("Inserire password: ")
+        
         if login(nome, password, accounts, utenti):
             while True:
-                risposta = input("Vuoi prenotare un concerto? (sì/no): ").lower()
-                if risposta == "sì":
+                risposta = input("Vuoi prenotare un concerto? (si/no): ").lower()
+                if risposta == "si":
                     prenota_concerto(accounts, concerti, sala, utenti, id_utenti, nome)
                 elif risposta == "no":
                     break
                 else:
-                    print("Risposta non valida. Inserisci 'sì' o 'no'.")
+                    print("Risposta non valida. Inserisci 'si' o 'no'.")
 
     case 3:
         crea_concerto(concerti, sala, id_concerti)
 
-  
